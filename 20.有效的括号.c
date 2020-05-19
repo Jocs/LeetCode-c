@@ -54,10 +54,68 @@
  * 输出: true
  * 
  */
+#include <stdio.h>
+#include <string.h>
+
+#define LIMIT 10000
+
+char stack[LIMIT];
+int pointer = 0;
+
+void push(char s) {
+  if (pointer > LIMIT) {
+    printf("Over stack");
+  }
+
+  stack[pointer++] = s;
+}
+
+char pop() {
+  if (pointer == -1) {
+    printf("The stack is empty!");
+  }
+
+  return stack[--pointer];
+}
+
+char peek() {
+  return stack[pointer - 1];
+}
 
 
 bool isValid(char * s){
+  pointer = 0;
+  int len = strlen(s);
+  int i;
+  if (len == 0) {
+    return true;
+  }
 
+  for (i = 0; i < len; ++i) {
+    char c = s[i];
+    if (c != '{' && c != '}' && c != '(' && c != ')' && c != '[' && c != ']') {
+      continue;
+    }
+    if (i == 0) {
+      push(c);
+    } else {
+      if (c == '(' || c == '{' || c == '[') {
+        push(c);
+      } else {
+        if (pointer == 0) {
+          return false;
+        }
+        char pk = peek();
+        if (pk == '(' && c == ')' || pk == '[' && c == ']' || pk == '{' && c == '}') {
+          pop();
+        } else {
+          push(c);
+        }
+      }
+    }
+  }
+
+  return pointer == 0;
 }
 
 
