@@ -60,7 +60,7 @@
  *     struct TreeNode *right;
  * };
  */
-
+#include <stdbool.h>
 
 bool isSameTree(struct TreeNode* p, struct TreeNode* q){
   if (!p && !q) {
